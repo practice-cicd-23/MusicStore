@@ -14,8 +14,10 @@ pipeline {
             }
         }
         stage('test') {
-            sh 'dotnet test --logger "junit;LogFilePath=TEST-musicstoretest.xml" ./MusicStoreTest/MusicStoreTest.csproj',
-            junit testResults: '**/TEST-*.xml'
+            steps {
+                sh 'dotnet test --logger "junit;LogFilePath=TEST-musicstoretest.xml" ./MusicStoreTest/MusicStoreTest.csproj',
+                junit testResults: '**/TEST-*.xml'
+            }
         }
     }
 }
