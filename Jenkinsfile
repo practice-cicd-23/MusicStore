@@ -1,7 +1,8 @@
 pipeline {
     agent { label 'DOTNET6'}
+    triggers { pollSCM('* * * * *') }
     stages {
-        stage('vcs') {
+        stage('vsc') {
             steps {
                 git url: 'https://github.com/practice-cicd-23/MusicStore.git',
                     branch: 'main'
@@ -13,11 +14,9 @@ pipeline {
             }
         }
         stage('test') {
-            steps {
-                sh 'dotnet test --logger "junit;LogFilePath=TEST-musicstoretest.xml" ./MusicStoreTest/MusicStoreTest.csproj'
-                junit testResults: '**/TEST-*.xml'
-              
-            }
+            sh 'dotnet test --logger "junit;LogFilePath=TEST-musicstoretest.xml" ./MusicStoreTest/MusicStoreTest.csproj',
+            junit testResults: '**/TEST-*.xml'
         }
     }
 }
+
